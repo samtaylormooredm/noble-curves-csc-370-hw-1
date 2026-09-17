@@ -95,3 +95,12 @@ testSymmetric2()
 testSymmetricAuthenticated()
 
 // Next chapters: asymetric cryptography, Diffie-Hellman
+
+
+import { initializeVRF } from './vrf.mjs'
+
+const vrf1 = initializeVRF()
+const vrf2 = initializeVRF()
+
+console.log(vrf1)
+console.log(vrf2)
