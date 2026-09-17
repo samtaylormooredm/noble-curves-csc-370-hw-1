@@ -2,6 +2,8 @@ import { secp256k1 } from '@noble/curves/secp256k1.js'
 
 import { getRandomBytes } from './random.mjs'
 
+import { sha256 } from '@noble/hashes/sha2.js'
+
 
 let privateKey
 let publicKey
@@ -33,7 +35,11 @@ export function generate(i) {
     message.set(seed, 0)
     message.set(iBytes, seed.length)
 
-    console.log(message)
+    const pi = secp256k1.sign(message, privateKey)  // 64-byte secp256k1 signature
+    const ri = sha256(pi)
+
+    console.log("Proof:", pi)
+    console.log("Random number:", ri)
 }
 
 // TOOD: returns true only if the verification passes as described above.
