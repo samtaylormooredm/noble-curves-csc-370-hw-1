@@ -26,7 +26,14 @@ export function initializeVRF() {
 
 // TODO: receives a parameter i and returns r_i and π_i as defined above
 export function generate(i) {
+    const iBytes = new TextEncoder().encode(i.toString())
 
+    const message = new Uint8Array(seed.length + iBytes.length)
+
+    message.set(seed, 0)
+    message.set(iBytes, seed.length)
+
+    console.log(message)
 }
 
 // TOOD: returns true only if the verification passes as described above.
