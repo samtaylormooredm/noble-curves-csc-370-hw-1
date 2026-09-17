@@ -1,0 +1,7 @@
+npm init
+	- Entry point: index.mjs
+npm install @noble/ciphers
+npm install @noble/curves
+npm install @noble/hashes
+
+# to run - node index.mjs
