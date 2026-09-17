@@ -35,12 +35,18 @@ export function generate(i) {
     message.set(seed, 0)
     message.set(iBytes, seed.length)
 
-    const pi = secp256k1.sign(message, privateKey)  // 64-byte secp256k1 signature
+    const pi = secp256k1.sign(message, privateKey)
     const ri = sha256(pi)
 
-    console.log("Proof:", pi)
-    console.log("Random number:", ri)
+    // console.log("Proof:", pi)
+    // console.log("Random number:", ri)
+
+    return {
+        ri,
+        pi
+    }
 }
+
 
 // TOOD: returns true only if the verification passes as described above.
 export function verify(ri, pi) {
