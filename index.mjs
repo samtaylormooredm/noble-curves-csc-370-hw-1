@@ -2,12 +2,10 @@
 // ST: To run, in terminal: node index.mjs
 
 import * as crypto from 'crypto'
-
 import { encrypt, encrypt2, decrypt, decrypt2 } from './symmetric.mjs'
-import { initializeVRF, generate } from './vrf.mjs'
-
 import { sha256 } from '@noble/hashes/sha2.js';
 import { bytesToHex, randomBytes } from '@noble/hashes/utils.js';
+import { initializeVRF, generate, verify } from './vrf.mjs'
 
 
 // Generates random bytes
@@ -69,7 +67,6 @@ function testSymmetricAuthenticated() {
 
 
 // Verifiable Random Function
-
 function testVRF() {
     const vrf = initializeVRF()
     const result = generate(1)
@@ -77,6 +74,8 @@ function testVRF() {
     console.log("VRF setup:", vrf)
     console.log("Proof:", result.pi)
     console.log("Random number:", result.ri)
+
+    console.log("Verified:", verify(result.ri, result.pi))
 }
 
 // Run tests
