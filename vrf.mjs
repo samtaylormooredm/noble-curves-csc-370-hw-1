@@ -1,8 +1,7 @@
 import { secp256k1 } from '@noble/curves/secp256k1.js'
-
 import { getRandomBytes } from './random.mjs'
-
 import { sha256 } from '@noble/hashes/sha2.js'
+import { bytesToHex } from '@noble/hashes/utils.js'
 
 
 let privateKey
@@ -50,5 +49,7 @@ export function generate(i) {
 
 // TOOD: returns true only if the verification passes as described above.
 export function verify(ri, pi) {
+    const calculatedRi = sha256(pi)
 
+    return bytesToHex(calculatedRi) === bytesToHex(ri)
 }

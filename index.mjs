@@ -72,12 +72,12 @@ function testSymmetricAuthenticated() {
 
 function testVRF() {
     const vrf = initializeVRF()
+    const result = generate(1)
 
     console.log("VRF setup:", vrf)
-
-    generate(1)
+    console.log("Proof:", result.pi)
+    console.log("Random number:", result.ri)
 }
-
 
 // Run tests
 
