@@ -69,13 +69,15 @@ function testSymmetricAuthenticated() {
 // Verifiable Random Function
 function testVRF() {
     const vrf = initializeVRF()
-    const result = generate(1)
+    const i = 1
+    const result = generate(i)
 
     console.log("VRF setup:", vrf)
     console.log("Proof:", result.pi)
     console.log("Random number:", result.ri)
 
-    console.log("Verified:", verify(result.ri, result.pi))
+    console.log("Verified:", verify(result.ri, result.pi, i))
+    console.log("Verified with wrong i:", verify(result.ri, result.pi, 2))
 }
 
 // Run tests

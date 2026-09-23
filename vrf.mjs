@@ -68,18 +68,37 @@ export function generate(i) {
 
 
 /**
- * Verifies that the provided random value matches the hash of its proof.
+ * Verifies a generated random value and its proof.
+ *
+ * Checks that the supplied random value is the SHA-256 hash of the proof,
+ * and that the proof is a valid signature on the seed concatenated with
+ * the given index.
  *
  * @param {Uint8Array} ri
  *   The random value to verify.
  * @param {Uint8Array} pi
  *   The proof associated with the random value.
+ * @param {number} i
+ *   The index associated with the generated value.
  * @returns {boolean}
- *   True if SHA-256(pi) equals ri; otherwise, false.
+ *   True if both the hash and signature verification succeed.
  */
-export function verify(ri, pi) {
-    // Recompute h(pi_i) and compare it with the supplied r_i.
+export function verify(ri, pi, i) {
     const calculatedRi = sha256(pi)
 
-    return bytesToHex(calculatedRi) === bytesToHex(ri)
+    // Check that ri is the hash of the supplied proof.
+    const validHash =
+        bytesToHex(calculatedRi) === bytesToHex(ri)
+
+    // Reconstruct s | i.
+    const iBytes = new TextEncoder().encode(i.toString())
+    const message = new Uint8Array(seed.length + iBytes.length)
+
+    message.set(seed, 0)
+    message.set(iBytes, seed.length)
+
+    // Check that pi is actually a valid signature on s | i.
+    const validSignature = secp256k1.verify(pi, message, publicKey)
+
+    return validHash && validSignature
 }
