@@ -4,11 +4,13 @@
 import * as crypto from 'crypto'
 import { encrypt, encrypt2, decrypt, decrypt2 } from './symmetric.mjs'
 import { sha256 } from '@noble/hashes/sha2.js';
+import { ed25519 } from "@noble/curves/ed25519";
 import { bytesToHex, randomBytes } from '@noble/hashes/utils.js';
 import { initializeVRF, generate, verify } from './vrf.mjs'
 import { calculateHash } from './timestamp.mjs'
 import { DiffieHellman } from 'crypto';
 import { demoDiffieHellman } from './diffie-hellman.mjs';
+import { demoSignature } from './asymmetric.mjs';
 
 
 // Generates random bytes
@@ -104,6 +106,8 @@ testVRF()
 console.log("\n--- Test: Timestamp Hash ---")
 testTimestamp()
 
-
+// Tests from class
 console.log("\n--- Test: Diffie Hellman ---")
 demoDiffieHellman()
+console.log("\n--- Test: Asymmetric cryptography [[x]signature, encryption] ---")
+demoSignature("Sign this!")
