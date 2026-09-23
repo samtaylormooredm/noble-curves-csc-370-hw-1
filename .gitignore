@@ -1,4 +1,18 @@
+# Dependencies
 node_modules/
-.DS_Store
+
+# Private keys
+*_private.pem
+
+# Environment / secrets
 .env
-*.log
+
+# OpenSSL CA bookkeeping
+index.txt
+index.txt.*
+serial.txt
+serial.txt.old
+[0-9][0-9].pem
+
+# macOS
+.DS_Store

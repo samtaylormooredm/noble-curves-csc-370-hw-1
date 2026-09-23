@@ -6,6 +6,11 @@ import { encrypt, encrypt2, decrypt, decrypt2 } from './symmetric.mjs'
 import { sha256 } from '@noble/hashes/sha2.js';
 import { bytesToHex, randomBytes } from '@noble/hashes/utils.js';
 import { initializeVRF, generate, verify } from './vrf.mjs'
+import {
+    calculateHash,
+    timestamp,
+    verify as verifyTimestamp
+} from './timestamp.mjs'
 
 
 // Generates random bytes
@@ -80,6 +85,23 @@ function testVRF() {
     console.log("Verified with wrong i:", verify(result.ri, result.pi, 2))
 }
 
+function testTimestamp() {
+    const hash = calculateHash('test.txt')
+    const result = timestamp(hash)
+
+    console.log("Timestamp:", result)
+    console.log("Timestamp verified:", verifyTimestamp(hash, result))
+
+    const wrongHash = crypto.createHash('sha256')
+        .update("different contents")
+        .digest()
+
+    console.log(
+        "Timestamp verified with wrong hash:",
+        verifyTimestamp(wrongHash, result)
+    )
+}
+
 // Run tests
 
 testRandom()
@@ -88,3 +110,4 @@ testSymmetric()
 testSymmetric2()
 testSymmetricAuthenticated()
 testVRF()
+testTimestamp()
